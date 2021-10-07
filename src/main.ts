@@ -1,18 +1,36 @@
+/* eslint-disable no-console */
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {PullRequestConnector} from './pullRequestConnector'
+import {JiraConnector} from './jiraConnector'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const pullRequestConnector = new PullRequestConnector()
+    const jiraConnector = new JiraConnector()
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const {sourceBranch, targetBranch} = pullRequestConnector
 
-    core.setOutput('time', new Date().toTimeString())
+    if (sourceBranch && targetBranch) {
+      const issueKey = jiraConnector.getIssueCodeFromBranch(sourceBranch)
+      const fixVersion = await jiraConnector.getfixVersionFromTicket(issueKey)
+
+      if (!fixVersion) {
+        pullRequestConnector.writeComment()
+        console.log('Fix version in Jira not found')
+        process.exit(0)
+      }
+
+      if (fixVersion !== targetBranch) {
+        console.log(`Fixversion not matched: ${fixVersion} and ${targetBranch}`)
+        process.exit(1)
+      }
+      console.log(`Fixversion matched: ${fixVersion} and ${targetBranch}`)
+    }
+
+    process.exit(0)
   } catch (error) {
-    core.setFailed(error.message)
+    console.log('Error: ', (error as Error).message)
+    core.setFailed((error as Error).message)
   }
 }
 
