@@ -15,8 +15,9 @@ async function run(): Promise<void> {
       const fixVersion = await jiraConnector.getfixVersionFromTicket(issueKey)
 
       if (!fixVersion) {
+        console.log('fixVersion:', fixVersion)
         await pullRequestConnector.writeComment()
-        console.log('Fix version in Jira not found')
+        console.log('Fix version in Jira not found!!')
         process.exit(0)
       }
 

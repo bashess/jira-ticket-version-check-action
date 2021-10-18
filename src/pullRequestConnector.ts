@@ -41,7 +41,7 @@ export class PullRequestConnector {
     const {NOT_FOUND_MESSAGE} = getInputs()
 
     const prNumber = this.pullRequest?.number
-
+    console.log('prNumber: ', prNumber)
     if (prNumber === undefined) {
       throw new Error('This action should only run on PR')
     }
