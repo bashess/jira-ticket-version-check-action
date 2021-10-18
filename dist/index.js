@@ -157,7 +157,7 @@ function run() {
                 const issueKey = jiraConnector.getIssueCodeFromBranch(sourceBranch);
                 const fixVersion = yield jiraConnector.getfixVersionFromTicket(issueKey);
                 if (!fixVersion) {
-                    pullRequestConnector.writeComment();
+                    yield pullRequestConnector.writeComment();
                     console.log('Fix version in Jira not found');
                     process.exit(0);
                 }
@@ -215,6 +215,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PullRequestConnector = void 0;
+/* eslint-disable no-console */
 const inputs_1 = __nccwpck_require__(6180);
 const github = __importStar(__nccwpck_require__(5438));
 class PullRequestConnector {
@@ -248,6 +249,7 @@ class PullRequestConnector {
                 throw new Error('This action should only run on PR');
             }
             yield this.octokit.rest.issues.createComment(Object.assign(Object.assign({}, this.context.repo), { issue_number: prNumber, body: NOT_FOUND_MESSAGE }));
+            console.log('Comment: ', NOT_FOUND_MESSAGE);
         });
     }
 }
