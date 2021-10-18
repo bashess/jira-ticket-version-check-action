@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {getInputs} from './inputs'
 import * as github from '@actions/github'
 import {Context} from '@actions/github/lib/context'
@@ -50,5 +51,6 @@ export class PullRequestConnector {
       issue_number: prNumber,
       body: NOT_FOUND_MESSAGE
     })
+    console.log('found comment: ', NOT_FOUND_MESSAGE)
   }
 }
