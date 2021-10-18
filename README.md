@@ -1,6 +1,6 @@
-# Jira ticket version check javascript action
+# Jira ticket fixversion check action
 
-This action match the Fixversion and a PR target branch.
+This action match the Jira issue fixversion and a PR target branch.
 
 ## Inputs
 ## `GITHUB_TOKEN`
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./
+      - uses: bashess/jira-ticket-version-check-action@v1.1
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           NOT_FOUND_MESSAGE: "Keine Jira Ticket Version angegeben, bitte prüfen!"
