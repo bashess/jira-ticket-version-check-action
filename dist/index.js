@@ -103,6 +103,15 @@ class JiraConnector {
             }
         });
     }
+    isMatchedVersion(fixVersion, targetBranch) {
+        if (!fixVersion.includes('/')) {
+            const rawBranch = targetBranch.split('/');
+            if (rawBranch.length === 2) {
+                return fixVersion === rawBranch[1];
+            }
+        }
+        return fixVersion === targetBranch;
+    }
 }
 exports.JiraConnector = JiraConnector;
 
@@ -161,7 +170,7 @@ function run() {
                     console.log('Fix version in Jira not found');
                     process.exit(0);
                 }
-                if (fixVersion !== targetBranch) {
+                if (!jiraConnector.isMatchedVersion(fixVersion, targetBranch)) {
                     console.log(`Fixversion not matched: ${fixVersion} and ${targetBranch}`);
                     process.exit(1);
                 }

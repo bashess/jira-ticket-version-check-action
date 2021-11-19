@@ -35,4 +35,14 @@ export class JiraConnector {
       return Promise.reject(error)
     }
   }
+
+  isMatchedVersion(fixVersion: string, targetBranch: string): boolean {
+    if (!fixVersion.includes('/')) {
+      const rawBranch = targetBranch.split('/')
+      if (rawBranch.length === 2) {
+        return fixVersion === rawBranch[1]
+      }
+    }
+    return fixVersion === targetBranch
+  }
 }

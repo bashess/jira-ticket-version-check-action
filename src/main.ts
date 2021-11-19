@@ -20,7 +20,7 @@ async function run(): Promise<void> {
         process.exit(0)
       }
 
-      if (fixVersion !== targetBranch) {
+      if (!jiraConnector.isMatchedVersion(fixVersion, targetBranch)) {
         console.log(`Fixversion not matched: ${fixVersion} and ${targetBranch}`)
         process.exit(1)
       }
