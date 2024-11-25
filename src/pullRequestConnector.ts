@@ -39,6 +39,10 @@ export class PullRequestConnector {
   async writeComment(): Promise<void> {
     const {NOT_FOUND_MESSAGE} = getInputs()
 
+    if (!NOT_FOUND_MESSAGE) {
+      return
+    }
+
     const prNumber = this.pullRequest?.number
 
     if (prNumber === undefined) {

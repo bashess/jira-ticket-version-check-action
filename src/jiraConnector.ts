@@ -36,13 +36,27 @@ export class JiraConnector {
     }
   }
 
+  private extractSemver(input: string): string | null {
+    const semverRegex = /(?:^|[^0-9.])(\d+\.\d+\.\d+)(?:$|[^0-9.])/
+    const match = input.match(semverRegex)
+    return match ? match[0] : null
+  }
+
   isMatchedVersion(fixVersion: string, targetBranch: string): boolean {
+    const fixVersionSemver = this.extractSemver(fixVersion)
+    const targetBranchSemver = this.extractSemver(targetBranch)
+
+    if (fixVersionSemver && targetBranchSemver) {
+      return fixVersionSemver === targetBranchSemver
+    }
+
     if (!fixVersion.includes('/')) {
-      const rawBranch = targetBranch.split('/')
-      if (rawBranch.length === 2) {
-        return fixVersion === rawBranch[1]
+      const branchParts = targetBranch.split('/')
+      if (branchParts.length === 2) {
+        return fixVersion === branchParts[1]
       }
     }
+
     return fixVersion === targetBranch
   }
 }
