@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {getInputs} from './inputs'
 import * as github from '@actions/github'
 import {Context} from '@actions/github/lib/context'
@@ -39,6 +38,10 @@ export class PullRequestConnector {
    */
   async writeComment(): Promise<void> {
     const {NOT_FOUND_MESSAGE} = getInputs()
+
+    if (!NOT_FOUND_MESSAGE) {
+      return
+    }
 
     const prNumber = this.pullRequest?.number
 
