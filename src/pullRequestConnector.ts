@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {getInputs} from './inputs'
 import * as github from '@actions/github'
 import {Context} from '@actions/github/lib/context'
