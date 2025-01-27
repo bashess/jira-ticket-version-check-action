@@ -1,3 +1,10 @@
+# 🚨 Migration to `outletcity/jira-ticket-version-check-action` 🚨
+
+this action is now found and developed under [https://github.com/outletcity/jira-ticket-version-check-action](https://github.com/outletcity/jira-ticket-version-check-action)
+
+<details>
+<summary>Original README</summary>
+
 # Jira ticket fixversion check action
 
 This action match the Jira issue fixversion and a PR target branch.
@@ -41,3 +48,4 @@ jobs:
           JIRA_USER: ${{secrets.JIRA_USER}}
           JIRA_PASSWORD: ${{secrets.JIRA_PASSWORD}}
 ```
+</details>
